@@ -4,11 +4,15 @@
   <title>Spring Security Example </title>
 </head>
 <body>
-<form action="/login" method="post">
+Add new user
+{{#message}}
+    {{message}}
+{{/message}}
+
+<form action="/registration" method="post">
   <div><label> User Name : <input type="text" name="username"/> </label></div>
   <div><label> Password: <input type="password" name="password"/> </label></div>
-  <div><input type="submit" value="Sign In"/></div>
+  <div><input type="submit" value="Add user"/></div>
 </form>
-<a href="/registration"> Add new user </a>
 </body>
 </html>
