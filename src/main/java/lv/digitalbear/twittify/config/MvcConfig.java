@@ -39,6 +39,4 @@ public class MvcConfig implements WebMvcConfigurer {
 		return resolver;
 	}
 
-
-
 }
