@@ -7,10 +7,10 @@
     <span><a href="/user">User list</a></span>
 </div>
 <div>
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <input type="text" name="text" placeholder="Input message" />
         <input type="text" name="tag" placeholder="Tag">
-
+        <input type="file" name="file">
         <button type="submit">Add</button>
     </form>
 </div>
@@ -26,6 +26,11 @@
     <span>${message.text}</span>
     <i>${message.tag}</i>
     <strong>${message.authorName}</strong>
+    <div>
+        <#if message.filename??>
+            <img src="/img/${message.filename}">
+        </#if>
+    </div>
 </div>
 <#else>
 No message
