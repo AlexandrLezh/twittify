@@ -14,8 +14,9 @@
     </form>
 </div>
 <div>Messages list</div>
-<form method="get" action="/main">
+<form method="get", action="/main">
     <input type="text" name="filter" value="${filter}">
+
     <button type="submit">Search</button>
 </form>
 <#list messages as message>
