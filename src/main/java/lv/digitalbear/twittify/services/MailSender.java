@@ -25,7 +25,7 @@ public class MailSender {
 
 		mailSender.send(mailMessage);
 
-		System.out.println("Mail sent");
+		//System.out.println("Mail sent");
 	}
 }
 
