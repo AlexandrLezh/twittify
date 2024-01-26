@@ -56,6 +56,14 @@
             </#if>
         </div>
     </div>
+    <div class="col-sm-6">
+        <div class="g-recaptcha" data-sitekey="***REMOVED***"></div>
+            <#if captchaError??>
+                <div class="alert alert-danger" role="alert">
+                    ${captchaError}
+                </div>
+            </#if>
+        </div>
     </#if>
 
     <#if !isRegisterForm><a href="/registration">Add new user</a></#if>
