@@ -1,5 +1,6 @@
 package lv.digitalbear.twittify.controllers;
 
+import jakarta.validation.Valid;
 import lv.digitalbear.twittify.domen.Role;
 import lv.digitalbear.twittify.domen.User;
 import lv.digitalbear.twittify.services.UserService;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,8 +27,23 @@ public class RegistrationController {
 	}
 
 	@PostMapping("/registration")
-	public String addUser(User user, Map<String, String> model) {
-		userService.addUser(user);
+	public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+		if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
+			model.addAttribute("passwordError", "Passwords are different!");
+		}
+
+		if (bindingResult.hasErrors()) {
+			Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+
+			model.mergeAttributes(errors);
+
+			return "registration";
+		}
+
+		if (!userService.addUser(user)) {
+			model.addAttribute("usernameError", "User exists!");
+			return "registration";
+		}
 		return "redirect:/login";
 	}
 

@@ -1,6 +1,7 @@
 package lv.digitalbear.twittify.domen;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +20,12 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	@NotBlank(message = "Username cannot be blank.")
 	private String username;
 	private String password;
+	@Transient
+	@NotBlank(message = "Cannot be empty.")
+	private String password2;
 	private boolean active;
 	private String email;
 	private String activationCode;
