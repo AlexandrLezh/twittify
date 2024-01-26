@@ -1,5 +1,6 @@
 package lv.digitalbear.twittify.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lv.digitalbear.twittify.domen.Message;
 import lv.digitalbear.twittify.domen.User;
@@ -28,6 +29,17 @@ public class MainController {
 	@Value("${upload.path}")
 	private String uploadPath;
 
+	@GetMapping("/ses")
+	public String session(HttpSession session, Model model) {
+		// Retrieve session attributes or perform any other logic
+		String sessionAttribute = (String) session.getAttribute("yourAttributeName");
+
+		// Add data to the model
+		model.addAttribute("sessionAttribute", sessionAttribute);
+
+		// Return the template name (without the extension)
+		return "index";
+	}
 	@GetMapping("/")
 	public String greeting(Map<String, Object> model) {
 		return "greeting";
