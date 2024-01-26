@@ -57,13 +57,13 @@
         </div>
     </div>
     <div class="col-sm-6">
-        <div class="g-recaptcha" data-sitekey="***REMOVED***"></div>
+        <div class="g-recaptcha" data-sitekey="6LfHlV0pAAAAANBOdrnQRbHL6OsEQjvFQKwhsIxi"></div>
             <#if captchaError??>
                 <div class="alert alert-danger" role="alert">
                     ${captchaError}
                 </div>
             </#if>
-        </div>
+    </div>
     </#if>
 
     <#if !isRegisterForm><a href="/registration">Add new user</a></#if>
