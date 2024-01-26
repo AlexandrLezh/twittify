@@ -26,7 +26,13 @@
                 </#if>
             </div>
             <div class="form-group">
-                <input type="text" class="form-control" name="tag" placeholder="Tag">
+               <input type="text" class="form-control"
+                value="<#if message??>${message.tag}</#if>" name="tag" placeholder="Tag">
+               <#if tagError??>
+                   <div class="invalid-feedback">
+                       ${tagError}
+                   </div>
+               </#if>
             </div>
             <div class="form-group">
                 <div class="custom-file">

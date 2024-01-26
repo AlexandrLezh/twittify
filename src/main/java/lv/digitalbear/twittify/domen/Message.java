@@ -18,6 +18,7 @@ public class Message {
 	@NotBlank(message = "Fill message please.")
 	@Size(max = 2000, message = "Message cannot be more than 2000 characters.")
 	private String text;
+	@Size(max = 2, message = "Tag should be less than 20 characters")
 	private String tag;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
