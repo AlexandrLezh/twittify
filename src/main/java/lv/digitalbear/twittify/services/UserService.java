@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	private void sendMessage(User user) {
-		if (!StringUtils.isEmpty(user.getEmail())) {
+		if (StringUtils.hasLength(user.getEmail())) {
 			String message = String.format(
 					"Hello, %s! \n" +
 							"Welcome to Sweater. Please, visit next link: http://%s/activate/%s",
@@ -114,12 +114,12 @@ public class UserService implements UserDetailsService {
 		if (isEmailChanged) {
 			user.setEmail(email);
 
-			if (!StringUtils.isEmpty(email)) {
+			if (StringUtils.hasLength(email)) {
 				user.setActivationCode(UUID.randomUUID().toString());
 			}
 		}
 
-		if (!StringUtils.isEmpty(password)) {
+		if (StringUtils.hasLength(password)) {
 			user.setPassword(passwordEncoder.encode(password));
 		}
 
@@ -128,6 +128,18 @@ public class UserService implements UserDetailsService {
 		if (isEmailChanged) {
 			sendMessage(user);
 		}
+	}
+
+	public void subscribe(User currentUser, User user) {
+		user.getSubscribers().add(currentUser);
+
+		userRepo.save(user);
+	}
+
+	public void unsubscribe(User currentUser, User user) {
+		user.getSubscribers().remove(currentUser);
+
+		userRepo.save(user);
 	}
 
 }

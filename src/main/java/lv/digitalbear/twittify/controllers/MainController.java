@@ -1,6 +1,5 @@
 package lv.digitalbear.twittify.controllers;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lv.digitalbear.twittify.domen.Message;
 import lv.digitalbear.twittify.domen.User;
@@ -32,17 +31,6 @@ public class MainController {
 	@Value("${upload.path}")
 	private String uploadPath;
 
-	@GetMapping("/ses")
-	public String session(HttpSession session, Model model) {
-		// Retrieve session attributes or perform any other logic
-		String sessionAttribute = (String) session.getAttribute("yourAttributeName");
-
-		// Add data to the model
-		model.addAttribute("sessionAttribute", sessionAttribute);
-
-		// Return the template name (without the extension)
-		return "index";
-	}
 	@GetMapping("/")
 	public String greeting(Map<String, Object> model) {
 		return "greeting";
@@ -120,6 +108,10 @@ public class MainController {
 	) {
 		Set<Message> messages = user.getMessages();
 
+		model.addAttribute("userChannel", user);
+		model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
+		model.addAttribute("subscribersCount", user.getSubscribers().size());
+		model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
 		model.addAttribute("messages", messages);
 		model.addAttribute("message", message);
 		model.addAttribute("isCurrentUser", currentUser.equals(user));
