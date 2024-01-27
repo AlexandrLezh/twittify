@@ -1,4 +1,4 @@
-package lv.digitalbear.twittify.domen.dto;
+package lv.digitalbear.twittify.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

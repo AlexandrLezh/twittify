@@ -1,4 +1,4 @@
-package lv.digitalbear.twittify.domen;
+package lv.digitalbear.twittify.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 

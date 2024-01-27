@@ -1,4 +1,4 @@
-package lv.digitalbear.twittify.domen;
+package lv.digitalbear.twittify.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -6,6 +6,10 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lv.digitalbear.twittify.domain.util.MessageHelper;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,12 +30,20 @@ public class Message {
 
 	private String filename;
 
+	@ManyToMany
+	@JoinTable(
+			name = "message_likes",
+			joinColumns = { @JoinColumn(name = "message_id") },
+			inverseJoinColumns = { @JoinColumn(name = "user_id")}
+	)
+	private Set<User> likes = new HashSet<>();
+
 	public Message(String text, String tag, User author) {
 		this.tag = tag;
 		this.text = text;
 		this.author = author;
 	}
 	public String getAuthorName() {
-		return author != null ? author.getUsername() : "<none>";
+		return MessageHelper.getAuthorName(author);
 	}
 }

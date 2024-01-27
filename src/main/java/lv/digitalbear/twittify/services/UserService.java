@@ -1,7 +1,7 @@
 package lv.digitalbear.twittify.services;
 
-import lv.digitalbear.twittify.domen.Role;
-import lv.digitalbear.twittify.domen.User;
+import lv.digitalbear.twittify.domain.Role;
+import lv.digitalbear.twittify.domain.User;
 import lv.digitalbear.twittify.repos.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

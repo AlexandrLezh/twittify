@@ -1,8 +1,8 @@
 package lv.digitalbear.twittify.controllers;
 
 import jakarta.validation.Valid;
-import lv.digitalbear.twittify.domen.User;
-import lv.digitalbear.twittify.domen.dto.CaptchaResponseDto;
+import lv.digitalbear.twittify.domain.User;
+import lv.digitalbear.twittify.domain.dto.CaptchaResponseDto;
 import lv.digitalbear.twittify.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
