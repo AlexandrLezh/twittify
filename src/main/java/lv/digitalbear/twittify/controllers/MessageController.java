@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lv.digitalbear.twittify.domen.Message;
 import lv.digitalbear.twittify.domen.User;
 import lv.digitalbear.twittify.repos.MessageRepo;
+import lv.digitalbear.twittify.services.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -27,9 +28,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Controller
-public class MainController {
+public class MessageController {
 	@Autowired
-	private MessageRepo messageRepo;
+	private MessageService messageService;
 
 	@Value("${upload.path}")
 	private String uploadPath;
@@ -44,13 +45,7 @@ public class MainController {
 	                   Model model,
 	                   @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
 	                   ) {
-		Page<Message> page;
-
-		if (filter != null && !filter.isEmpty()) {
-			page = messageRepo.findByTag(filter, pageable);
-		} else {
-			page = messageRepo.findAll(pageable);
-		}
+		Page<Message> page = messageService.messagesList(pageable, filter);
 
 		model.addAttribute("page", page);
 		model.addAttribute("url", "/main");
@@ -79,10 +74,10 @@ public class MainController {
 
 			model.addAttribute("message", null);
 
-			messageRepo.save(message);
+			messageService.saveMessage(message);
 		}
 
-		Iterable<Message> messages = messageRepo.findAll();
+		Iterable<Message> messages = messageService.findAllMessages();
 
 		model.addAttribute("messages", messages);
 
@@ -106,23 +101,24 @@ public class MainController {
 		}
 	}
 
-	@GetMapping("/user-messages/{user}")
+	@GetMapping("/user-messages/{author}")
 	public String userMessages(
 			@AuthenticationPrincipal User currentUser,
-			@PathVariable User user,
+			@PathVariable User author,
 			Model model,
-			@RequestParam(required = false) Message message
+			@RequestParam(required = false) Message message,
+			@PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
 	) {
-		Set<Message> messages = user.getMessages();
+		Page<Message> page = messageService.messagesListForUser(pageable, currentUser, author);
 
-		model.addAttribute("userChannel", user);
-		model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
-		model.addAttribute("subscribersCount", user.getSubscribers().size());
-		model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
-		model.addAttribute("messages", messages);
+		model.addAttribute("userChannel", author);
+		model.addAttribute("subscriptionsCount", author.getSubscriptions().size());
+		model.addAttribute("subscribersCount", author.getSubscribers().size());
+		model.addAttribute("isSubscriber", author.getSubscribers().contains(currentUser));
+		model.addAttribute("page", page);
 		model.addAttribute("message", message);
-		model.addAttribute("isCurrentUser", currentUser.equals(user));
-
+		model.addAttribute("isCurrentUser", currentUser.equals(author));
+		model.addAttribute("url", "/user-messages/" + author.getId());
 
 		return "userMessages";
 	}
@@ -147,7 +143,7 @@ public class MainController {
 
 			saveFile(message, file);
 
-			messageRepo.save(message);
+			messageService.saveMessage(message);
 		}
 
 		return "redirect:/user-messages/" + user;
